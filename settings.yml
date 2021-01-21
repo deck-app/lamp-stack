@@ -1,0 +1,58 @@
+#User defined
+user:
+  php_version:
+    label:
+      PHP version
+    hint:
+      Select a PHP version from the list below
+    type:
+      select
+    values:
+      - 5.6
+      - 5.7
+      - 7.2
+      - 8.1
+    target:
+      PHP_VERSION
+
+  mysql_version:
+    label:
+      MySQL version
+    hint:
+      Select MySQL version
+    type:
+      select
+    values:
+      - "5.0"
+      - "7.0"
+    target:
+      MYSQL_VERSION
+
+  customize_server_root_path:
+    label:
+      Server root
+    type:
+      input
+    values:
+      /var/www
+    hint:
+      Server document root
+    target:
+      DOCUMENT_ROOT
+
+#System defaults
+system:
+  show_localpath_selector:
+    true
+  #For collecting and storing DB in .env
+  #db/user/password
+  db_credentials:
+    true
+  #Generate public ports for the docker image
+  ports:
+    http:
+      SERVER_PORT
+    others:
+      - MAILHOG_PORT
+      - DJANGO_PORT
+
