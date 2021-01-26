@@ -19,7 +19,7 @@ user:
     label:
       Install Xdebug?
     type:
-      checkbot
+      checkbox
     target:
       INSTALL_XDEBUG
   # mysql_version:
