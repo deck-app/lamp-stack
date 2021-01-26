@@ -17,9 +17,11 @@ user:
 
   install_xdebug:
     label:
-      Install Xdebug?
+      Install XDEBUG?
     type:
       checkbox
+    hint:
+      Check to enable XDEBUG installation
     target:
       INSTALL_XDEBUG
   # mysql_version:
