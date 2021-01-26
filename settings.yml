@@ -15,6 +15,13 @@ user:
     target:
       PHP_VERSION
 
+  install_xdebug:
+    label:
+      Install Xdebug?
+    type:
+      checkbot
+    target:
+      INSTALL_XDEBUG
   # mysql_version:
   #   label:
   #     MySQL version
