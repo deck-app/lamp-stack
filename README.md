@@ -1,6 +1,6 @@
 <div align="center">
     <a href="https://lamp.sh/" target="_blank">
-        <img alt="LAMP" src="https://github.com/teddysun/lamp/blob/master/conf/lamp.png">
+        <img alt="LAMP" src="https://get-deck.com/wp-content/uploads/2021/02/lamp.png">
     </a>
 </div>
 
