@@ -52,7 +52,7 @@ user:
     hint:
       Server document root
     target:
-      DOCUMENT_ROOT
+      SERVER_ROOT
 
 #System defaults
 system:
@@ -65,7 +65,7 @@ system:
   #Generate public ports for the docker image
   ports:
     http:
-      SERVER_PORT
+      APACHE_HOST_HTTP_PORT
     others:
       - MYSQL_PORT
       - PMA_PORT
