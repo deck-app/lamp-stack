@@ -91,7 +91,7 @@ RUN sed -i 's#/var/www/localhost/htdocs#/var/www#g' /etc/apache2/httpd.conf
 RUN mkdir -p /run/apache2
 
 COPY conf5.d/* /etc/apache2/conf.d/
-COPY php_ini/a_php5.6.ini /etc/php5/php.ini
+COPY php_ini/php5.6.ini /etc/php5/php.ini
 
 RUN rm -Rf /var/www/*
 
