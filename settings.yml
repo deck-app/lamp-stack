@@ -9,9 +9,11 @@ user:
       select
     values:
       - 5.6
-      - 5.7
+      - 7.0
+      - 7.1
       - 7.2
-      - 8.1
+      - 7.3
+      - 7.4
     target:
       PHP_VERSION
 
@@ -19,7 +21,10 @@ user:
     label:
       Install XDEBUG?
     type:
-      checkbox
+      select
+    values:
+      - on
+      - off
     hint:
       Check to enable XDEBUG installation
     target:
