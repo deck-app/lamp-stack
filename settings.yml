@@ -17,18 +17,18 @@ user:
     target:
       PHP_VERSION
 
-  install_xdebug:
+  install_PHPERROR:
     label:
-      Install XDEBUG?
+      Install PHPERROR?
     type:
       select
     values:
-      - on
-      - off
+      - On
+      - Off
     hint:
-      Check to enable XDEBUG installation
+      Check to On/Off display error
     target:
-      INSTALL_XDEBUG
+      DISPLAY_PHPERROR
   # mysql_version:
   #   label:
   #     MySQL version
