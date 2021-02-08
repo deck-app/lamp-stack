@@ -6,9 +6,9 @@
 
 ### Using DECK
 
-Install lamp-stack from the DECK marketplace
+Install lamp-stack from the DECK marketplace and follow the instructions on the GUI
 
-### Using w/o DECK
+### From terminal with Docker
 
 ```
 git clone https://github.com/deck-app/lamp-stack/
