@@ -4,11 +4,11 @@
 
 ## Install
 
-### Using DECK app
+### Using DECK
 
 Install lamp-stack from the DECK marketplace
 
-### Docker 
+### Using w/o DECK
 
 ```
 git clone https://github.com/deck-app/lamp-stack/
