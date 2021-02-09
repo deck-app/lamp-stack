@@ -2,13 +2,13 @@
 
 > Docker-compose project with Alpine linux, Apache, MySQL and PHP. Super easy to get started and running in a few mins
 
-### Install
+## Install
 
-#### Using DECK
+### Using DECK
 
 Install lamp-stack from the DECK marketplace and follow the instructions on the GUI
 
-#### From terminal with Docker
+### From terminal with Docker
 
 ```
 git clone https://github.com/deck-app/lamp-stack/
