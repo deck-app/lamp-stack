@@ -1,5 +1,5 @@
 FROM alpine:3.5
-MAINTAINER Naba Das <hello@get-deck.com>
+LABEL maintainer Naba Das <nabad600@gmail.com>
 
 RUN apk add --update --no-cache bash \
 				curl \
@@ -92,6 +92,13 @@ RUN mkdir -p /run/apache2
 
 COPY conf5.d/* /etc/apache2/conf.d/
 COPY php_ini/php5.6.ini /etc/php5/php.ini
+
+ARG DISPLAY_PHPERROR
+RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
+sed -i "s#{DISPLAY}#On#g" /etc/php5/php.ini \
+;else \
+sed -i "s#{DISPLAY}#Off#g" /etc/php5/php.ini \
+;fi
 
 RUN rm -Rf /var/www/*
 

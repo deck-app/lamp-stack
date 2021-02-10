@@ -1,14 +1,16 @@
 FROM alpine:3.9
-LABEL MAINTAINE Naba Das <hello@get-deck.com>
-
+LABEL maintainer Naba Das <nabad600@gmail.com>
 ARG BUILD_DATE
 ARG VCS_REF
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.vcs-url="https://github.com/phpearth/docker-php.git" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.schema-version="1.0" \
+      org.label-schema.vendor="PHP.earth" \
       org.label-schema.name="docker-php" \
-      org.label-schema.description="Docker For PHP Developers - Docker image with PHP 7.4, Apache, and Alpine"
+      org.label-schema.description="Docker For PHP Developers - Docker image with PHP 7.4, Apache, and Alpine" \
+      org.label-schema.url="https://github.com/phpearth/docker-php"
 
 # PHP_INI_DIR to be symmetrical with official php docker image
 ENV PHP_INI_DIR /etc/php/7.4
@@ -37,9 +39,6 @@ ARG DEPS="\
         php7.4-curl \
         php7.4-simplexml \
         php7.4-xml \
-        php7.4-mongodb \
-        php7.4-mysqli \
-        php7.4-mysqlnd \
         php7.4-opcache \
         php7.4-dom \
         php7.4-xmlreader \
@@ -52,6 +51,10 @@ ARG DEPS="\
         php7.4-json \
         php7.4-posix \
         php7.4-apache2 \
+        php7.4-pdo \
+        php7.4-mongodb \
+        php7.4-mysqli \
+        php7.4-mysqlnd \
         php7.4-composer \
         curl \
         ca-certificates \
@@ -69,30 +72,31 @@ RUN set -x \
     && ln -sf /dev/stdout /var/log/apache2/access.log \
     && ln -sf /dev/stderr /var/log/apache2/error.log
 
-#RUN sed -i 's#/var/www/localhost/htdocs#/var/www/#g' /etc/apache2/httpd.conf
+RUN apk update
+RUN apk add bash
+
+COPY apache/ /
 
 COPY httpd.conf /etc/apache2/httpd.conf
 ARG SERVER_ROOT
 
 RUN sed -i "s#{SERVER_ROOT}#$SERVER_ROOT#g" /etc/apache2/httpd.conf
+
 VOLUME [ "/var/www/" ]
 WORKDIR /var/www
-
-COPY apache /
-RUN rm -Rf /var/www/*
 COPY php_ini/php7.4.ini /etc/php/7.4/php.ini
+
+ARG DISPLAY_PHPERROR
+RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
+sed -i "s#{DISPLAY}#On#g" /etc/php/7.4/php.ini \
+;else \
+sed -i "s#{DISPLAY}#Off#g" /etc/php/7.4/php.ini \
+;fi
+
+RUN chmod +x /etc/service/apache/run
 RUN chmod +x /sbin/runit-wrapper
 RUN chmod +x /sbin/runsvdir-start
-RUN chmod +x /etc/service/apache/run
-COPY conf.d/* /etc/apache2/conf.d/
-RUN dos2unix /sbin/runit-wrapper
-RUN dos2unix /sbin/runsvdir-start
-RUN dos2unix /etc/service/apache/run
-
-RUN apk add --no-cache bash
 
 EXPOSE 80
-
-WORKDIR /var/www
 
 CMD ["/sbin/runit-wrapper"]
