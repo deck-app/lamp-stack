@@ -7,6 +7,7 @@ services:
       args:
         - "SERVER_ROOT=${SERVER_ROOT}"
         - "PHP_VERSION=${PHP_VERSION}"
+        - "DISPLAY_PHPERROR=${DISPLAY_PHPERROR}"
     volumes:
       - "${APP_CODE_PATH_HOST}:${APP_CODE_PATH_NGINX}${APP_CODE_CONTAINER_FLAG}"
     ports:
