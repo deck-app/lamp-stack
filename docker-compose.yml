@@ -27,9 +27,9 @@ services:
     build: "./phpmyadmin"
     environment:
       - "PMA_ARBITRARY=1"
-      - "MYSQL_USER=${PMA_USER}"
-      - "MYSQL_PASSWORD=${PMA_PASSWORD}"
-      - "MYSQL_ROOT_PASSWORD=${PMA_ROOT_PASSWORD}"
+      - "MYSQL_USER=${DB_USER}"
+      - "MYSQL_PASSWORD=${DB_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}"
     ports:
       - "${PMA_PORT}:80"
 volumes:
