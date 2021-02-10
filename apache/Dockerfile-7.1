@@ -1,5 +1,5 @@
 FROM alpine:3.9
-LABEL MAINTAINE Naba Das <hello@get-deck.com>
+LABEL maintainer Naba Das <nabad600@gmail.com>
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -38,7 +38,6 @@ ARG DEPS="\
         php7.1-zlib \
         php7.1-bz2 \
         php7.1-curl \
-        php7.1-pdo \
         php7.1-simplexml \
         php7.1-xml \
         php7.1-opcache \
@@ -49,13 +48,14 @@ ARG DEPS="\
         php7.1-ctype \
         php7.1-session \
         php7.1-fileinfo \
-        php7.1-mongodb \
-        php7.1-mysqli \
-        php7.1-mysqlnd \
         php7.1-iconv \
         php7.1-json \
         php7.1-posix \
         php7.1-apache2 \
+        php7.1-pdo \
+        php7.1-mongodb \
+        php7.1-mysqli \
+        php7.1-mysqlnd \
         php7.1-composer \
         curl \
         ca-certificates \
@@ -72,31 +72,38 @@ RUN set -x \
     && mkdir -p /run/apache2 \
     && ln -sf /dev/stdout /var/log/apache2/access.log \
     && ln -sf /dev/stderr /var/log/apache2/error.log
-RUN apk --no-cache update \
-    && apk add --no-cache php7-mysqli
-RUN apk add --no-cache php7.3-sodium php7.3-intl php7.3-pdo_mysql
-    
-RUN apk add --no-cache bash
+
+RUN apk update
+RUN apk add bash
+
+COPY apache/ /
 
 COPY httpd.conf /etc/apache2/httpd.conf
 ARG SERVER_ROOT
 
 RUN sed -i "s#{SERVER_ROOT}#$SERVER_ROOT#g" /etc/apache2/httpd.conf
+
 VOLUME [ "/var/www/" ]
 WORKDIR /var/www
-
-COPY apache /
-RUN rm -Rf /var/www/*
 COPY php_ini/php7.1.ini /etc/php/7.1/php.ini
+
+ARG DISPLAY_PHPERROR
+ARG DISPLAY_O
+ARG DISPLAY_F
+RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
+sed -i "s#{DISPLAY}#$DISPLAY_O#g" /etc/php/7.1/php.ini \
+;else \
+sed -i "s#{DISPLAY}#$DISPLAY_F#g" /etc/php/7.1/php.ini \
+;fi
+
+RUN chmod +x /etc/service/apache/run
 RUN chmod +x /sbin/runit-wrapper
 RUN chmod +x /sbin/runsvdir-start
+
 RUN chmod +x /etc/service/apache/run
-COPY conf.d/* /etc/apache2/conf.d/
-RUN dos2unix /sbin/runit-wrapper
-RUN dos2unix /sbin/runsvdir-start
-RUN dos2unix /etc/service/apache/run
+RUN chmod +x /sbin/runit-wrapper
+RUN chmod +x /sbin/runsvdir-start
 
 EXPOSE 80
-WORKDIR /var/www
 
 CMD ["/sbin/runit-wrapper"]

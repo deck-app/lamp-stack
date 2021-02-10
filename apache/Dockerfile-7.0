@@ -1,6 +1,5 @@
 FROM alpine:3.7
-LABEL MAINTAINE Naba Das <hello@get-deck.com>
-
+LABEL maintainer Naba Das <nabad600@gmail.com>
 ARG BUILD_DATE
 ARG VCS_REF
 
@@ -41,7 +40,6 @@ ARG DEPS="\
         php7.0-simplexml \
         php7.0-xml \
         php7.0-opcache \
-        php7.0-pdo \
         php7.0-dom \
         php7.0-xmlreader \
         php7.0-xmlwriter \
@@ -54,14 +52,16 @@ ARG DEPS="\
         php7.0-posix \
         php7.0-apache2 \
         php7.0-composer \
+        php7.0-pdo \
+        php7.0-mongodb \
+        php7.0-mysqli \
+        php7.0-mysqlnd \
         curl \
         ca-certificates \
         runit \
         apache2 \
 "
 
-RUN apk add --no-cache bash
-#RUN sed -i 's#/var/www/localhost/htdocs#/var/www/#g' /etc/apache2/httpd.conf
 # PHP.earth Alpine repository for better developer experience
 ADD https://repos.php.earth/alpine/phpearth.rsa.pub /etc/apk/keys/phpearth.rsa.pub
 
@@ -71,29 +71,34 @@ RUN set -x \
     && mkdir -p /run/apache2 \
     && ln -sf /dev/stdout /var/log/apache2/access.log \
     && ln -sf /dev/stderr /var/log/apache2/error.log
-    
-RUN apk add --no-cache bash
+
+RUN apk update
+RUN apk add bash
+
+COPY apache/ /
 
 COPY httpd.conf /etc/apache2/httpd.conf
 ARG SERVER_ROOT
 
 RUN sed -i "s#{SERVER_ROOT}#$SERVER_ROOT#g" /etc/apache2/httpd.conf
+
 VOLUME [ "/var/www/" ]
 WORKDIR /var/www
-
-COPY apache /
-RUN rm -Rf /var/www/*
 COPY php_ini/php7.0.ini /etc/php/7.0/php.ini
+ARG DISPLAY_PHPERROR
+ARG DISPLAY_O
+ARG DISPLAY_F
+RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
+sed -i "s#{DISPLAY}#$DISPLAY_O#g" /etc/php/7.0/php.ini \
+;else \
+sed -i "s#{DISPLAY}#$DISPLAY_F#g" /etc/php/7.0/php.ini \
+;fi
+
+RUN chmod +x /etc/service/apache/run
 RUN chmod +x /sbin/runit-wrapper
 RUN chmod +x /sbin/runsvdir-start
-RUN chmod +x /etc/service/apache/run
-COPY conf.d/* /etc/apache2/conf.d/
-RUN dos2unix /sbin/runit-wrapper
-RUN dos2unix /sbin/runsvdir-start
-RUN dos2unix /etc/service/apache/run
+
 
 EXPOSE 80
-
-WORKDIR /var/www
 
 CMD ["/sbin/runit-wrapper"]

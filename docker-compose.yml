@@ -7,29 +7,32 @@ services:
       args:
         - "SERVER_ROOT=${SERVER_ROOT}"
         - "PHP_VERSION=${PHP_VERSION}"
+        - "DISPLAY_PHPERROR=${DISPLAY_PHPERROR}"
+        - "DISPLAY_O=${DISPLAY_O}"
+        - "DISPLAY_F=${DISPLAY_F}"
     volumes:
       - "${APP_CODE_PATH_HOST}:${APP_CODE_PATH_NGINX}${APP_CODE_CONTAINER_FLAG}"
     ports:
       - "${APACHE_HOST_HTTP_PORT}:80"
   mysql:
-    image: "deckapp/mysql:v10.1.19"
+    build:
+      context: "./mysql"
     environment:
       - "MYSQL_DATABASE=${DB_DATABASE}"
       - "MYSQL_USER=${DB_USER}"
       - "MYSQL_PASSWORD=${DB_PASSWORD}"
       - "MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}"
     volumes:
-      - "${DATA_PATH_HOST}/mysql:/var/lib/mysql"
-      - "${MYSQL_PATH}:/etc/mysql/"
+      - "${DATA_PATH_HOST}/mysql:/app"
     ports:
       - "${MYSQL_PORT}:3306"
   phpmyadmin:
     build: "./phpmyadmin"
     environment:
       - "PMA_ARBITRARY=1"
-      - "MYSQL_USER=${PMA_USER}"
-      - "MYSQL_PASSWORD=${PMA_PASSWORD}"
-      - "MYSQL_ROOT_PASSWORD=${PMA_ROOT_PASSWORD}"
+      - "MYSQL_USER=${DB_USER}"
+      - "MYSQL_PASSWORD=${DB_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}"
     ports:
       - "${PMA_PORT}:80"
 volumes:
