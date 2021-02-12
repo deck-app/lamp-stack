@@ -44,5 +44,5 @@ RUN apk add --update --no-cache bash \
 You have to rebuild the docker image after you make any changes to the project configuration, use the snippet below to rebuild and restart the stack
 
 ```
-docker-compose build && docker-compose stop && docker-compose up -d
+docker-compose stop && docker-compose up --build -d
 ```
