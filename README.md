@@ -24,6 +24,10 @@ docker-compose up -d
 From the DECK app, go to stack list and click on project's `More > configure > Advanced configuration`
 Follow the instructions below and restart your stack from the GUI
 
+#### Edit Apache configuration
+
+httpd.conf is located at `./apache/httpd.conf`
+
 #### Editing php.in
 
 PHP ini file is located at `./apache/php_ini/php{YOUR.PHP.VERSION}.ini`
