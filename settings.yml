@@ -17,13 +17,12 @@ user:
     target:
       PHP_VERSION
 
-  PHP error_reporting:
+  php_error_reporting:
     label:
-      Check Display Error Reporting?
+      Enable PHP error reporting?
     type:
-      Checkbox
-    hint:
-      Check to Enable or Disable "Display PHP error reporting?"
+      checkbox
+    hint: Check the box to display PHP errors 
     target:
       DISPLAY_PHPERROR
   # mysql_version:
@@ -47,7 +46,7 @@ user:
     values:
       /var/www
     hint:
-      Server document root
+      Server document root, make sure to append "/public" if you are going to install a framework like Laravel
     target:
       SERVER_ROOT
 
