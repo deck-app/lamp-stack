@@ -1,5 +1,5 @@
 FROM alpine:3.4
-LABEL MAINTAINER Naba Das <nabad600@gmail.com>
+LABEL MAINTAINER Naba Das <hello@get-deck.com>
 
 WORKDIR /app
 VOLUME /app
