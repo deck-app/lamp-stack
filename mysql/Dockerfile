@@ -5,6 +5,7 @@ WORKDIR /app
 VOLUME /app
 
 RUN apk add --update mysql mysql-client && rm -f /var/cache/apk/*
+RUN apk add bash
 
 # These lines moved to the end allow us to rebuild image quickly after only these files were modified.
 COPY startup.sh /startup.sh
