@@ -20,10 +20,17 @@ Edit `.env` file to change any settings before installing like php, apache, mysq
 ```
 docker-compose up -d
 ```
+### Modifying project settings
+From the DECK app, go to stack list and click on project's `More > configure > Advanced configuration`
+Follow the instructions below and restart your stack from the GUI
+
+#### Edit Apache configuration
+
+httpd.conf is located at `./apache/httpd.conf`
 
 #### Editing php.in
 
-PHP ini file is located at `lamp-stack/apache/php_ini/php{YOUR.PHP.VERSION}.ini`
+PHP ini file is located at `./apache/php_ini/php{YOUR.PHP.VERSION}.ini`
 
 #### Installing / removing PHP extensions
 
@@ -39,7 +46,7 @@ RUN apk add --update --no-cache bash \
 				php5-sqlite3 \
 ```
 
-#### Rebuilding
+#### Rebuilding from terminal
 
 You have to rebuild the docker image after you make any changes to the project configuration, use the snippet below to rebuild and restart the stack
 
