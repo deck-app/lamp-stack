@@ -56,7 +56,6 @@ ARG DEPS="\
         php7.1-mongodb \
         php7.1-mysqli \
         php7.1-mysqlnd \
-        php7.1-composer \
         curl \
         ca-certificates \
         runit \
@@ -65,6 +64,8 @@ ARG DEPS="\
 
 # PHP.earth Alpine repository for better developer experience
 ADD https://repos.php.earth/alpine/phpearth.rsa.pub /etc/apk/keys/phpearth.rsa.pub
+RUN apk add curl
+
 
 RUN set -x \
     && echo "https://repos.php.earth/alpine/v3.9" >> /etc/apk/repositories \
@@ -86,6 +87,8 @@ RUN sed -i "s#{SERVER_ROOT}#$SERVER_ROOT#g" /etc/apache2/httpd.conf
 VOLUME [ "/var/www/" ]
 WORKDIR /var/www
 COPY php_ini/php7.1.ini /etc/php/7.1/php.ini
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \

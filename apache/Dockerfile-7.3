@@ -56,7 +56,6 @@ ARG DEPS="\
         php7.3-mongodb \
         php7.3-mysqli \
         php7.3-mysqlnd \
-        php7.3-composer \
         curl \
         ca-certificates \
         runit \
@@ -86,6 +85,10 @@ RUN sed -i "s#{SERVER_ROOT}#$SERVER_ROOT#g" /etc/apache2/httpd.conf
 VOLUME [ "/var/www/" ]
 WORKDIR /var/www
 COPY php_ini/php7.3.ini /etc/php/7.3/php.ini
+
+# Composer install
+RUN apk add curl
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \

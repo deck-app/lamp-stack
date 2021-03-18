@@ -51,12 +51,10 @@ ARG DEPS="\
         php7.0-json \
         php7.0-posix \
         php7.0-apache2 \
-        php7.0-composer \
         php7.0-pdo \
         php7.0-mongodb \
         php7.0-mysqli \
         php7.0-mysqlnd \
-        php7.0-composer \
         curl \
         ca-certificates \
         runit \
@@ -92,6 +90,10 @@ sed -i "s#{DISPLAY}#On#g" /etc/php/7.0/php.ini \
 ;else \
 sed -i "s#{DISPLAY}#Off#g" /etc/php/7.0/php.ini \
 ;fi
+
+#Composer install
+RUN apk add curl
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN chmod +x /etc/service/apache/run
 RUN chmod +x /sbin/runit-wrapper
