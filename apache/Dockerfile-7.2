@@ -53,9 +53,10 @@ ARG DEPS="\
         php7.2-posix \
         php7.2-apache2 \
         php7.2-pdo \
-        php7.2-mongodb \
         php7.2-mysqli \
         php7.2-mysqlnd \
+        php7.2-dev \
+        php7.2-pear \
         curl \
         ca-certificates \
         runit \
@@ -95,6 +96,15 @@ RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
 sed -i "s#{DISPLAY}#On#g" /etc/php/7.2/php.ini \
 ;else \
 sed -i "s#{DISPLAY}#Off#g" /etc/php/7.2/php.ini \
+;fi
+
+#mongodb version update
+ARG MONGODB_VERSION
+RUN if [ ${MONGODB_VERSION} = true ]; then \
+pecl install mongodb \
+&& echo "extension=mongodb.so" > /etc/php/7.2/conf.d/mongodb.ini \
+;else \
+apk add php7.2-mongodb \
 ;fi
 
 RUN chmod +x /etc/service/apache/run

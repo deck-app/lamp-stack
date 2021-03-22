@@ -52,9 +52,10 @@ ARG DEPS="\
         php7.0-posix \
         php7.0-apache2 \
         php7.0-pdo \
-        php7.0-mongodb \
         php7.0-mysqli \
         php7.0-mysqlnd \
+        php7.0-dev \
+        php7.0-pear \
         curl \
         ca-certificates \
         runit \
@@ -90,6 +91,16 @@ sed -i "s#{DISPLAY}#On#g" /etc/php/7.0/php.ini \
 ;else \
 sed -i "s#{DISPLAY}#Off#g" /etc/php/7.0/php.ini \
 ;fi
+
+#mongodb version update
+ARG MONGODB_VERSION
+RUN if [ ${MONGODB_VERSION} = true ]; then \
+pecl install mongodb \
+&& echo "extension=mongodb.so" > /etc/php/7.0/conf.d/mongodb.ini \
+;else \
+apk add php7.0-mongodb \
+;fi
+
 
 #Composer install
 RUN apk add curl
