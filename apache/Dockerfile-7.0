@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM --platform=linux/x86_64 alpine:3.7
 LABEL maintainer Naba Das <hello@get-deck.com>
 ARG BUILD_DATE
 ARG VCS_REF
@@ -85,6 +85,11 @@ RUN sed -i "s#{SERVER_ROOT}#$SERVER_ROOT#g" /etc/apache2/httpd.conf
 VOLUME [ "/var/www/" ]
 WORKDIR /var/www
 COPY php_ini/php7.0.ini /etc/php/7.0/php.ini
+
+#Composer install
+RUN apk add curl
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
 sed -i "s#{DISPLAY}#On#g" /etc/php/7.0/php.ini \
@@ -93,18 +98,14 @@ sed -i "s#{DISPLAY}#Off#g" /etc/php/7.0/php.ini \
 ;fi
 
 #mongodb version update
-ARG MONGODB_VERSION
-RUN if [ ${MONGODB_VERSION} = true ]; then \
-pecl install mongodb \
-&& echo "extension=mongodb.so" > /etc/php/7.0/conf.d/mongodb.ini \
-;else \
-apk add php7.0-mongodb \
-;fi
+#ARG MONGODB_VERSION
+#RUN if [ ${MONGODB_VERSION} = true ]; then \
+#pecl install mongodb \
+#&& echo "extension=mongodb.so" > /etc/php/7.0/conf.d/mongodb.ini \
+#;else \
+#apk add php7.0-mongodb \
+#;fi
 
-
-#Composer install
-RUN apk add curl
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN chmod +x /etc/service/apache/run
 RUN chmod +x /sbin/runit-wrapper

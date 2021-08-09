@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM --platform=linux/x86_64 alpine:3.13
 LABEL maintainer Naba Das <hello@get-deck.com>
 ARG BUILD_DATE
 ARG VCS_REF

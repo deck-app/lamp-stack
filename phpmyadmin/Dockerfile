@@ -1,4 +1,4 @@
-FROM phpmyadmin/phpmyadmin
+FROM --platform=linux/x86_64 phpmyadmin/phpmyadmin
 
 LABEL maintainer="Bo-Yi Wu <appleboy.tw@gmail.com>"
 
