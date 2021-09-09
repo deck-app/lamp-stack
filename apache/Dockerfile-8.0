@@ -79,7 +79,6 @@ RUN set -x \
 
 RUN apk update
 RUN apk add bash
-RUN apk add composer
 
 COPY apache/ /
 
@@ -100,6 +99,9 @@ sed -i "s#{DISPLAY}#On#g" /etc/php/8.0/php.ini \
 ;else \
 sed -i "s#{DISPLAY}#Off#g" /etc/php/8.0/php.ini \
 ;fi
+
+RUN mv /usr/bin/php8 /usr/bin/php
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN chmod +x /etc/service/apache/run
 RUN chmod +x /sbin/runit-wrapper
