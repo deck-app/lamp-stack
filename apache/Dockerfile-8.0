@@ -1,4 +1,4 @@
-FROM --platform=linux/x86_64 alpine:3.13
+FROM --platform=linux/x86_64 alpine:3.12
 LABEL maintainer Naba Das <hello@get-deck.com>
 ARG BUILD_DATE
 ARG VCS_REF
@@ -9,11 +9,11 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.schema-version="1.0" \
       org.label-schema.vendor="PHP.earth" \
       org.label-schema.name="docker-php" \
-      org.label-schema.description="Docker For PHP Developers - Docker image with PHP 8.0, Apache, and Alpine" \
+      org.label-schema.description="Docker For PHP Developers - Docker image with PHP 8.0.11, Apache, and Alpine" \
       org.label-schema.url="https://github.com/phpearth/docker-php"
 
 # PHP_INI_DIR to be symmetrical with official php docker image
-ENV PHP_INI_DIR /etc/php/8.0
+ENV PHP_INI_DIR /etc/php8
 
 # When using Composer, disable the warning about running commands as root/super user
 ENV COMPOSER_ALLOW_SUPERUSER=1
@@ -57,9 +57,16 @@ ARG DEPS="\
         php8-posix \
         php8-apache2 \
         php8-pdo \
-        php8-mongodb \
+        php8-pdo_dblib \
+        php8-pdo_mysql \
+        php8-pdo_odbc \
+        php8-pdo_pgsql\
+        php8-pdo_sqlite \
         php8-mysqli \
         php8-mysqlnd \
+        php8-mongodb \
+        php8-dev \
+        php8-pear \
         curl \
         ca-certificates \
         runit \
@@ -72,13 +79,16 @@ ADD https://repos.php.earth/alpine/phpearth.rsa.pub /etc/apk/keys/phpearth.rsa.p
 
 RUN set -x \
     && echo "https://repos.php.earth/alpine/v3.9" >> /etc/apk/repositories \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories \
     && apk add --no-cache $DEPS \
     && mkdir -p /run/apache2 \
     && ln -sf /dev/stdout /var/log/apache2/access.log \
     && ln -sf /dev/stderr /var/log/apache2/error.log
 
-RUN apk update
+RUN apk add openrc
+RUN apk add nano
 RUN apk add bash
+RUN apk add icu-libs
 
 COPY apache/ /
 
@@ -95,13 +105,17 @@ COPY php8-module.conf /etc/apache2/conf.d/php8-module.conf
 
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
-sed -i "s#{DISPLAY}#On#g" /etc/php/8.0/php.ini \
+sed -i "s#{DISPLAY}#On#g" /etc/php8/php.ini \
 ;else \
-sed -i "s#{DISPLAY}#Off#g" /etc/php/8.0/php.ini \
+sed -i "s#{DISPLAY}#Off#g" /etc/php8/php.ini \
 ;fi
 
 RUN mv /usr/bin/php8 /usr/bin/php
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN apk add --no-cache openssl openssl-dev
+RUN apk add curl
+RUN apk --update add gcc make g++ zlib-dev
+RUN apk add --no-cache php8-pecl-mongodb
 
 RUN chmod +x /etc/service/apache/run
 RUN chmod +x /sbin/runit-wrapper
