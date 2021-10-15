@@ -28,7 +28,7 @@ user:
       DISPLAY_PHPERROR
   php_mongodb_version:
     label:
-      Update mongodb extension 1.5.3 to 1.9.0(Only php7-7.4)?
+      Update mongodb extension 1.5.3 to 1.9.0(Only php7-7.3)?
     type:
       checkbox
     hint: Check the box to update mongodb extension 1.5.3 to 1.9.0

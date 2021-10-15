@@ -64,7 +64,6 @@ ARG DEPS="\
         php8-pdo_sqlite \
         php8-mysqli \
         php8-mysqlnd \
-        php8-mongodb \
         php8-dev \
         php8-pear \
         curl \
@@ -115,6 +114,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN apk add --no-cache openssl openssl-dev
 RUN apk add curl
 RUN apk --update add gcc make g++ zlib-dev
+RUN apk --update add --no-cache gdbm libsasl snappy
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main/" >> /etc/apk/repositories
 RUN apk add --no-cache php8-pecl-mongodb
 
 RUN chmod +x /etc/service/apache/run
