@@ -9,7 +9,7 @@ user:
       select
     values:
       - 5.6
-      #- "7.0"
+      - "7.0"
       - 7.1
       - 7.2
       - 7.3
@@ -26,14 +26,14 @@ user:
     hint: Check the box to display PHP errors 
     target:
       DISPLAY_PHPERROR
-  php_mongodb_version:
+  php_xdebug:
     label:
-      Update mongodb extension 1.5.3 to 1.9.0(Only php7-7.3)?
+      Enable PHP extension XDEBUG?
     type:
       checkbox
-    hint: Check the box to update mongodb extension 1.5.3 to 1.9.0
+    hint: Check the box to display extension xdebug
     target:
-      MONGODB_VERSION
+      XDEBUG
   # mysql_version:
   #   label:
   #     MySQL version
