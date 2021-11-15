@@ -54,6 +54,20 @@ user:
       Server document root, make sure to append "/public" if you are going to install a framework like Laravel
     target:
       SERVER_ROOT
+  MariaDB_version:
+    label:
+      MariaDB version
+    hint:
+      Select a MariaDB version from the list above
+    type:
+      select
+    values:
+      - latest
+      - 10.7
+      - 10.6
+      - 10.5
+    target:
+      MARIADB_VERSION
 
 #System defaults
 system:
