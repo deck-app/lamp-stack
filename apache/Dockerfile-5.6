@@ -18,5 +18,5 @@ RUN rm -Rf /var/www/*
 COPY httpd.conf /etc/apache2/httpd.conf
 ARG SERVER_ROOT
 RUN sed -i "s#{SERVER_ROOT}#${SERVER_ROOT}#g" /etc/apache2/httpd.conf
-VOLUME [ "/var/www/" ]
+
 WORKDIR /var/www
