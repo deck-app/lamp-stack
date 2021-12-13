@@ -14,5 +14,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
+    - name: Build the Docker image with php5.6
       run: docker-compose build
+      env:
+          PHP_VERSION: "5.6"
+          XDEBUG: true
+          DISPLAY_PHPERROR: true
+          MARIADB_VERSION: latest
+
+    - name: Build the Docker image with php7.4
+      run: docker-compose build
+      env:
+          PHP_VERSION: "7.4"
+          XDEBUG: true
+          DISPLAY_PHPERROR: true
+          MARIADB_VERSION: latest
+
+    - name: Build the Docker image with php8.0
+      run: docker-compose build
+      env:
+          PHP_VERSION: "8.0"
+          XDEBUG: true
+          DISPLAY_PHPERROR: true
+          MARIADB_VERSION: latest
