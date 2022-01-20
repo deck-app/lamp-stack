@@ -19,4 +19,11 @@ COPY httpd.conf /etc/apache2/httpd.conf
 ARG SERVER_ROOT
 RUN sed -i "s#{SERVER_ROOT}#${SERVER_ROOT}#g" /etc/apache2/httpd.conf
 
+ARG INSTALL_ADDITIONAL_EXTENSIONS
+RUN if [ -z "$INSTALL_ADDITIONAL_EXTENSIONS" ] ; then \
+echo "No additional PHP extensions added" \
+;else \
+apk add --no-cache ${INSTALL_ADDITIONAL_EXTENSIONS} \
+;fi
+
 WORKDIR /var/www
