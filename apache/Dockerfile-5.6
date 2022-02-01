@@ -1,8 +1,7 @@
 FROM ghcr.io/deck-app/apache:v5.6
 LABEL maintainer Naba Das <hello@get-deck.com>
 
-RUN apk add --update --no-cache php5-xml
-				 #add to extension (i.e. php5-fpm)
+#add to extension (i.e. php5-fpm)
 
 COPY php_ini/php5.6.ini /etc/php5/php.ini
 ARG DISPLAY_PHPERROR
