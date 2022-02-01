@@ -25,4 +25,11 @@ echo "No additional PHP extensions added" \
 apk add --no-cache ${INSTALL_ADDITIONAL_EXTENSIONS} \
 ;fi
 
+#Xdebug enable or disable
+ARG XDEBUG
+RUN if [ ${XDEBUG} = true ]; then \
+apk update && apk add --no-cache php5-xdebug \
+&& echo "zend_extension=/usr/lib/php5/modules/xdebug.so" >> /etc/php5/php.ini \
+;fi
+
 WORKDIR /var/www
