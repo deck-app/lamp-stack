@@ -12,7 +12,7 @@ RUN sed -i "s#{SERVER_ROOT}#$SERVER_ROOT#g" /etc/apache2/httpd.conf
 
 VOLUME [ "/var/www/" ]
 WORKDIR /var/www
-COPY php_ini/php8.0.ini /etc/php8/php.ini
+COPY php_ini/php.ini /etc/php8/php.ini
 
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
