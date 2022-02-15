@@ -324,6 +324,7 @@ jobs:
       run: docker exec lamp-stack_apache_1 composer
     - name: Web site Test
       run: |
+        docker exec lamp-stack_apache_1 apk update && apk add wget curl
         docker exec lamp-stack_apache_1 wget -O /var/www/index.php https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/install/index.html
         curl -i http://localhost:5590/
     - name: Verify MariaDB running from host, create Database and show Database
