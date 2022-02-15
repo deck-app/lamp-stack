@@ -298,9 +298,10 @@ jobs:
         sudo rm -rf /tmp/lamp
         sudo rm -rf /tmp/mariadb
     - name: Build the Docker image Apache php 5.6
-      run: |
-      mkdir -p /tmp/mariadb
-      docker-compose -f "docker-compose.yml" up -d --build
+    - name: Folder crate
+      run:  |
+        mkdir -p /tmp/lamp && mkdir -p /tmp/mariadb
+      run: docker-compose -f "docker-compose.yml" up -d --build
       env:
           PHP_VERSION: "5.6"
           XDEBUG: true
