@@ -84,10 +84,6 @@ jobs:
             sleep 3s
             sudo rm -rf /tmp/db
           done
-    - name: Create data folder
-      run:  |
-        mkdir /tmp/app
-        mkdir /tmp/db
     - uses: actions/checkout@v2
     - name: Build the Docker image Apache php 8.0
       run: docker-compose -f "docker-compose.yml" up -d --build
