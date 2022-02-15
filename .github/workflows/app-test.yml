@@ -326,7 +326,8 @@ jobs:
       run: |
         docker exec lamp-stack_apache_1 apk update
         docker exec lamp-stack_apache_1 apk add wget curl
-        docker exec lamp-stack_apache_1 wget -O /var/www/index.php https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/install/index.html
+        
+        docker exec lamp-stack_apache_1 curl -s -o /var/www/index.php https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/install/index.html
         curl -i http://localhost:5590/
     - name: Verify MariaDB running from host, create Database and show Database
       run: |
