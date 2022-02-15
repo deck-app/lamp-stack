@@ -342,7 +342,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image Apache php 5.6
       run: docker-compose -f "docker-compose.yml" up -d --build
-      arg:
+      env:
           PHP_VERSION: "5.6"
           XDEBUG: true
           DISPLAY_PHPERROR: true
