@@ -247,7 +247,7 @@ jobs:
       run:  docker exec lamp-stack_apache_1 composer create-project --prefer-dist laravel/laravel:^8.0
     - name: Check Database running
       run: |
-        while [ -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
+        while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ];
         do
           sleep 1s
         done
@@ -371,7 +371,7 @@ jobs:
         curl -i http://localhost:5590/
     - name: Check Database running
       run: |
-        while [ -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
+        while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ];
         do
           sleep 1s
         done
