@@ -41,12 +41,12 @@ jobs:
         sudo curl -I --http2 http://localhost:5590/
     - name: Laravel8 test
       run:  docker exec lamp-stack_apache_1 composer create-project --prefer-dist laravel/laravel:^8.0
-    - name: Check Database running
-      run: |
-        while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
-        do
-          sleep 1s
-        done
+    # - name: Check Database running
+    #   run: |
+    #     while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
+    #     do
+    #       sleep 1s
+    #     done
     - name: Check MariaDB version
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
     - name: Verify MariaDB database from user
@@ -113,12 +113,12 @@ jobs:
         curl -i http://localhost:5590/
     - name: Laravel8 test
       run:  docker exec lamp-stack_apache_1 composer create-project --prefer-dist laravel/laravel:^8.0
-    - name: Check Database running
-      run: |
-        while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
-        do
-          sleep 1s
-        done
+    # - name: Check Database running
+    #   run: |
+    #     while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
+    #     do
+    #       sleep 1s
+    #     done
     - name: Check MariaDB version
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
     - name: Verify MariaDB database from user
@@ -173,12 +173,12 @@ jobs:
         sudo curl -I --http2 http://localhost:5590/
     - name: Laravel8 test
       run:  docker exec lamp-stack_apache_1 composer create-project --prefer-dist laravel/laravel:^8.0
-    - name: Check Database running
-      run: |
-        while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
-        do
-          sleep 1s
-        done
+    # - name: Check Database running
+    #   run: |
+    #     while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
+    #     do
+    #       sleep 1s
+    #     done
     - name: Check MariaDB version
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
     - name: Verify MariaDB database from user
@@ -245,12 +245,12 @@ jobs:
         curl -i http://localhost:5590/
     - name: Laravel8 test
       run:  docker exec lamp-stack_apache_1 composer create-project --prefer-dist laravel/laravel:^8.0
-    - name: Check Database running
-      run: |
-        while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
-        do
-          sleep 1s
-        done
+    # - name: Check Database running
+    #   run: |
+    #     while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
+    #     do
+    #       sleep 1s
+    #     done
     - name: Check MariaDB version
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
     - name: Verify MariaDB database from user
@@ -301,12 +301,12 @@ jobs:
       run: |
         docker exec lamp-stack_apache_1 wget -O /var/www/index.php https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/install/index.html
         sudo curl -I --http2 http://localhost:5590/
-    - name: Check Database running
-      run: |
-        while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
-        do
-          sleep 1s
-        done
+    # - name: Check Database running
+    #   run: |
+    #     while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
+    #     do
+    #       sleep 1s
+    #     done
     - name: Check MariaDB version
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
     - name: Verify MariaDB database from user
@@ -369,12 +369,12 @@ jobs:
       run: |
         docker exec lamp-stack_apache_1 wget -O /var/www/index.php https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/install/index.html
         curl -i http://localhost:5590/
-    - name: Check Database running
-      run: |
-        while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
-        do
-          sleep 1s
-        done
+    # - name: Check Database running
+    #   run: |
+    #     while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
+    #     do
+    #       sleep 1s
+    #     done
     - name: Check MariaDB version
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
     - name: Verify MariaDB database from user
