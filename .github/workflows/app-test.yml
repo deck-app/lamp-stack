@@ -317,7 +317,6 @@ jobs:
       run: docker exec lamp-stack_apache_1 php -m | grep mysqli
     - name: Composer test
       run: docker exec lamp-stack_apache_1 composer
-    - name: testing
       options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     - name: Web site Test
       run: |
@@ -325,7 +324,11 @@ jobs:
         curl -i http://localhost:5590/
     - name: Verify MariaDB running from host, create Database and show Database
       run: |
-        docker exec lamp-stack_mariadb_1 ls -la /run/mysqld/mysqld.sock
+        while [!-S "echo $(docker exec lamp-stack_mariadb_1 ls -la /run/mysqld/mysqld.sock)" ]
+        do
+          sleep 3s
+          docker exec lamp-stack_mariadb_1 ls -la /run/mysqld/mysqld.sock
+        done
     - name: Check MariaDB version
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
     - name: Verify MariaDB database from user
