@@ -354,6 +354,10 @@ jobs:
           DB_ROOT_PASSWORD: password
           DATA_PATH_HOST: /tmp/db
           MARIADB_VERSION:  latest
+          DB_NAME:  test
+          DB_USER:  admin
+          DB_PASSWORD:  password
+          DB_ROOT_PASSWORD: password
     - name: PHP version check
       run : docker exec lamp-stack_apache_1 php -v
     - name: Mysql Driver check
