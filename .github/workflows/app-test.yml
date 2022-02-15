@@ -328,10 +328,10 @@ jobs:
         curl -i http://localhost:5590/
     - name: Verify MariaDB running from host, create Database and show Database
       run: |
-        while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls -la /run/mysqld/mysqld.sock)" ]
+        while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock)" ]
         do
           sleep 3s
-          docker exec lamp-stack_mariadb_1 ls -la /run/mysqld/mysqld.sock
+          docker exec lamp-stack_mariadb_1 ls /run/mysqld/mysqld.sock
         done
     - name: Check MariaDB version
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
