@@ -239,56 +239,56 @@ jobs:
   #       echo "y" | docker volume prune
 
   
-  Apache-PHP5-Mariadb-AMD64:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image apache php 5.6
-      run: docker-compose -f "docker-compose.yml" up -d --build
-      env:
-          PHP_VERSION: "5.6"
-          XDEBUG: true
-          DISPLAY_PHPERROR: true
-          SERVER_ROOT:  /var/www/
-          APP_CODE_PATH_HOST: /tmp/app
-          DB_NAME: test
-          DB_USER:  admin
-          DB_PASSWORD:  password
-          DB_ROOT_PASSWORD: password
-          DATA_PATH_HOST: /tmp/db
-          MARIADB_VERSION:  latest
-    - name: PHP version check
-      run : docker exec lamp-stack_apache_1 php -v
-    - name: Mysql Driver check
-      run: docker exec lamp-stack_apache_1 php -m | grep mysqli
-    - name: Composer test
-      run: docker exec lamp-stack_apache_1 composer
-    - name: Web site Test
-      run: |
-        docker exec lamp-stack_apache_1 wget -O /var/www/index.php https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/install/index.html
-        sudo curl -I --http2 http://localhost:5590/
-    - name: Verify MariaDB running from host, create Database and show Database
-      run: |
-        sleep 30s
-    - name: Check MariaDB version
-      run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
-    - name: Verify MariaDB database from user
-      run:  docker exec lamp-stack_mariadb_1 mysql -uadmin -ppassword -e "SHOW DATABASES"
-    - name: Create a Database
-      run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "CREATE DATABASE deckapp"
-    - name: Verify Database create or not
-      run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW DATABASES"
-    - name: Database connection check
-      run: |
-        docker exec lamp-stack_apache_1 wget -O /var/www/db.php https://raw.githubusercontent.com/nabad600/apache_php/master/connection.php
-        docker exec lamp-stack_apache_1 php /var/www/db.php
-    - name: Destroy Container and file
-      run:  |
-        docker-compose down
-        sudo rm -rf /tmp/app
-        sudo rm -rf /tmp/db
-        echo "y" | docker image prune -a
-        echo "y" | docker volume prune
+  # Apache-PHP5-Mariadb-AMD64:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Build the Docker image apache php 5.6
+  #     run: docker-compose -f "docker-compose.yml" up -d --build
+  #     env:
+  #         PHP_VERSION: "5.6"
+  #         XDEBUG: true
+  #         DISPLAY_PHPERROR: true
+  #         SERVER_ROOT:  /var/www/
+  #         APP_CODE_PATH_HOST: /tmp/app
+  #         DB_NAME: test
+  #         DB_USER:  admin
+  #         DB_PASSWORD:  password
+  #         DB_ROOT_PASSWORD: password
+  #         DATA_PATH_HOST: /tmp/db
+  #         MARIADB_VERSION:  latest
+  #   - name: PHP version check
+  #     run : docker exec lamp-stack_apache_1 php -v
+  #   - name: Mysql Driver check
+  #     run: docker exec lamp-stack_apache_1 php -m | grep mysqli
+  #   - name: Composer test
+  #     run: docker exec lamp-stack_apache_1 composer
+  #   - name: Web site Test
+  #     run: |
+  #       docker exec lamp-stack_apache_1 wget -O /var/www/index.php https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/install/index.html
+  #       sudo curl -I --http2 http://localhost:5590/
+  #   - name: Verify MariaDB running from host, create Database and show Database
+  #     run: |
+  #       sleep 30s
+  #   - name: Check MariaDB version
+  #     run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
+  #   - name: Verify MariaDB database from user
+  #     run:  docker exec lamp-stack_mariadb_1 mysql -uadmin -ppassword -e "SHOW DATABASES"
+  #   - name: Create a Database
+  #     run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "CREATE DATABASE deckapp"
+  #   - name: Verify Database create or not
+  #     run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW DATABASES"
+  #   - name: Database connection check
+  #     run: |
+  #       docker exec lamp-stack_apache_1 wget -O /var/www/db.php https://raw.githubusercontent.com/nabad600/apache_php/master/connection.php
+  #       docker exec lamp-stack_apache_1 php /var/www/db.php
+  #   - name: Destroy Container and file
+  #     run:  |
+  #       docker-compose down
+  #       sudo rm -rf /tmp/app
+  #       sudo rm -rf /tmp/db
+  #       echo "y" | docker image prune -a
+  #       echo "y" | docker volume prune
   Apache-PHP5-Mariadb-ARM64:
     runs-on: self-hosted
     steps:
@@ -328,7 +328,7 @@ jobs:
         curl -i http://localhost:5590/
     - name: Verify MariaDB running from host, create Database and show Database
       run: |
-        while [! -S "echo $(docker exec lamp-stack_mariadb_1 ls -la /run/mysqld/mysqld.sock)" ]
+        while [ ! -S "echo $(docker exec lamp-stack_mariadb_1 ls -la /run/mysqld/mysqld.sock)" ]
         do
           sleep 3s
           docker exec lamp-stack_mariadb_1 ls -la /run/mysqld/mysqld.sock
@@ -337,8 +337,8 @@ jobs:
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
     - name: Verify MariaDB database from user
       run:  docker exec lamp-stack_mariadb_1 mysql -uadmin -ppassword -e "SHOW DATABASES"
-    - name: Create a Database
-      run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "CREATE DATABASE deckapp"
+    # - name: Create a Database
+    #   run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "CREATE DATABASE deckapp"
     - name: Verify Database create or not
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW DATABASES"
     - name: Database connection check
