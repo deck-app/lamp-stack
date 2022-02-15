@@ -324,6 +324,7 @@ jobs:
     - name: Verify MariaDB running from host, create Database and show Database
       run: |
         sleep 50s
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
         docker exec lamp-stack_mariadb_1 ls -la /run/mysqld/mysqld.sock
     - name: Check MariaDB version
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
