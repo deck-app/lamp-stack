@@ -317,7 +317,6 @@ jobs:
       run: docker exec lamp-stack_apache_1 php -m | grep mysqli
     - name: Composer test
       run: docker exec lamp-stack_apache_1 composer
-      options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     - name: Web site Test
       run: |
         docker exec lamp-stack_apache_1 wget -O /var/www/index.php https://raw.githubusercontent.com/deck-app/stack-preview-screen/main/install/index.html
