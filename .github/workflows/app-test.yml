@@ -25,7 +25,7 @@ jobs:
           DB_USER:  admin
           DB_PASSWORD:  password
           DB_ROOT_PASSWORD: password
-          DATA_PATH_HOST: /tmp/db
+          DATA_PATH_HOST: /tmp/lamp
           MARIADB_VERSION:  latest
     - name: PHP version check
       run : docker exec lamp-stack_apache_1 php -v
@@ -63,7 +63,7 @@ jobs:
       run:  |
         docker-compose down
         sudo rm -rf /tmp/app
-        sudo rm -rf /tmp/db
+        sudo rm -rf /tmp/lamp
         echo "y" | docker image prune -a
         echo "y" | docker volume prune
   Apache-PHP8-Mariadb-ARM64:
@@ -78,7 +78,7 @@ jobs:
         done
         while [ -d /tmp/db ]; do
         echo "password" | sudo -S whoami
-        sudo rm -rf /tmp/db/
+        sudo rm -rf /tmp/lamp
         done
     - name: Build the Docker image Apache php 8.0
       run: docker-compose -f "docker-compose.yml" up -d --build
@@ -92,7 +92,7 @@ jobs:
           DB_USER:  admin
           DB_PASSWORD:  password
           DB_ROOT_PASSWORD: password
-          DATA_PATH_HOST: /tmp/db
+          DATA_PATH_HOST: /tmp/lamp
           MARIADB_VERSION:  latest
     - name: PHP version check
       run : docker exec lamp-stack_apache_1 php -v
@@ -129,16 +129,17 @@ jobs:
     - name: Destroy Container 
       run: |
         docker-compose down
+        echo "y" | docker image prune -a
+        echo "y" | docker volume prune
         while -d /tmp/app; do
         echo "password" | sudo -S whoami
         sudo rm -rf /tmp/app/
         done
-        while -d /tmp/db; do
+        while -d /tmp/lamp; do
         echo "password" | sudo -S whoami
-        sudo rm -rf /tmp/db/
+        sudo rm -rf /tmp/lamp
         done
-        echo "y" | docker image prune -a
-        echo "y" | docker volume prune
+        
         
 
   Apache-PHP7-Mariadb-AMD64:
@@ -157,7 +158,7 @@ jobs:
           DB_USER:  admin
           DB_PASSWORD:  password
           DB_ROOT_PASSWORD: password
-          DATA_PATH_HOST: /tmp/db
+          DATA_PATH_HOST: /tmp/lamp
           MARIADB_VERSION:  latest
     - name: PHP version check
       run : docker exec lamp-stack_apache_1 php -v
@@ -194,10 +195,11 @@ jobs:
     - name: Destroy Container and file
       run:  |
         docker-compose down
-        sudo rm -rf /tmp/app
-        sudo rm -rf /tmp/db
         echo "y" | docker image prune -a
         echo "y" | docker volume prune
+        sudo rm -rf /tmp/app
+        sudo rm -rf /tmp/lamp
+        
   Apache-PHP7-Mariadb-ARM64:
     runs-on: self-hosted
     steps:
@@ -210,7 +212,7 @@ jobs:
         done
         while [ -d /tmp/db ]; do
         echo "password" | sudo -S whoami
-        sudo rm -rf /tmp/db/
+        sudo rm -rf /tmp/lamp
         done
     - name: Build the Docker image Apache php 7.4
       run: docker-compose -f "docker-compose.yml" up -d --build
@@ -224,7 +226,7 @@ jobs:
           DB_USER:  admin
           DB_PASSWORD:  password
           DB_ROOT_PASSWORD: password
-          DATA_PATH_HOST: /tmp/db
+          DATA_PATH_HOST: /tmp/lamp
           MARIADB_VERSION:  latest
     - name: PHP version check
       run : docker exec lamp-stack_apache_1 php -v
@@ -261,16 +263,17 @@ jobs:
     - name: Destroy Container 
       run: |
         docker-compose down
+        echo "y" | docker image prune -a
+        echo "y" | docker volume prune
         while -d /tmp/app; do
         echo "password" | sudo -S whoami
         sudo rm -rf /tmp/app/
         done
-        while -d /tmp/db; do
+        while -d /tmp/lamp; do
         echo "password" | sudo -S whoami
-        sudo rm -rf /tmp/db/
+        sudo rm -rf /tmp/lamp
         done
-        echo "y" | docker image prune -a
-        echo "y" | docker volume prune
+        
 
   
   Apache-PHP5-Mariadb-AMD64:
@@ -285,7 +288,7 @@ jobs:
         done
         while [ -d /tmp/db ]; do
         echo "password" | sudo -S whoami
-        sudo rm -rf /tmp/db/
+        sudo rm -rf /tmp/lamp
         done
     - name: Build the Docker image apache php 5.6
       run: docker-compose -f "docker-compose.yml" up -d --build
@@ -299,7 +302,7 @@ jobs:
           DB_USER:  admin
           DB_PASSWORD:  password
           DB_ROOT_PASSWORD: password
-          DATA_PATH_HOST: /tmp/db
+          DATA_PATH_HOST: /tmp/lamp
           MARIADB_VERSION:  latest
     - name: PHP version check
       run : docker exec lamp-stack_apache_1 php -v
@@ -333,7 +336,7 @@ jobs:
       run:  |
         docker-compose down
         sudo rm -rf /tmp/app
-        sudo rm -rf /tmp/db
+        sudo rm -rf /tmp/lamp
         echo "y" | docker image prune -a
         echo "y" | docker volume prune
   Apache-PHP5-Mariadb-ARM64:
@@ -352,7 +355,7 @@ jobs:
           DB_USER:  admin
           DB_PASSWORD:  password
           DB_ROOT_PASSWORD: password
-          DATA_PATH_HOST: /tmp/db
+          DATA_PATH_HOST: /tmp/lamp
           MARIADB_VERSION:  latest
     - name: PHP version check
       run : docker exec lamp-stack_apache_1 php -v
@@ -385,14 +388,15 @@ jobs:
     - name: Destroy Container 
       run: |
         docker-compose down
+        echo "y" | docker image prune -a
+        echo "y" | docker volume prune
         while [ -d /tmp/app ]; do
         echo "password" | sudo -S whoami
         sudo rm -rf /tmp/app/
         done
-        while [ -d /tmp/db ]; do
+        while [ -d /tmp/lamp ]; do
         echo "password" | sudo -S whoami
-        sudo rm -rf /tmp/db/
+        sudo rm -rf /tmp/lamp
         done
-        echo "y" | docker image prune -a
-        echo "y" | docker volume prune
+        
   
