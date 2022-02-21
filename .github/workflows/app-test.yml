@@ -207,7 +207,6 @@ jobs:
         echo "y" | docker volume prune
         sudo rm -rf /tmp/app
         sudo rm -rf /tmp/lamp
-        
   Apache-PHP7-Mariadb-ARM64:
     runs-on: self-hosted
     steps:
@@ -270,8 +269,6 @@ jobs:
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
     - name: Verify MariaDB database from user
       run:  docker exec lamp-stack_mariadb_1 mysql -uadmin -ppassword -e "SHOW DATABASES"
-    - name: Create a Database
-      run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "CREATE DATABASE deckapp"
     - name: Verify Database create or not
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW DATABASES"
     - name: Database connection check
@@ -405,8 +402,6 @@ jobs:
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW VARIABLES LIKE '%version%';"
     - name: Verify MariaDB database from user
       run:  docker exec lamp-stack_mariadb_1 mysql -uadmin -ppassword -e "SHOW DATABASES"
-    - name: Create a Database
-      run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "CREATE DATABASE deckapp"
     - name: Verify Database create or not
       run:  docker exec lamp-stack_mariadb_1 mysql -uroot -ppassword -e "SHOW DATABASES"
     - name: Database connection check
