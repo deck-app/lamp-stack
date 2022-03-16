@@ -392,7 +392,7 @@ jobs:
         curl -i http://localhost:5590/
     - name: Verify MariaDB running from host, create Database and show Database
       run: |
-        while ! docker exec lamp-stack_mariadb_1 mysqladmin --user=root --password=password --host "mariadb" ping --silent &> /dev/null ; do
+        while ! docker exec lamp-stack-mariadb-1 mysqladmin --user=root --password=password --host "mariadb" ping --silent &> /dev/null ; do
             echo "Waiting for database connection..."
             sleep 2
         done
