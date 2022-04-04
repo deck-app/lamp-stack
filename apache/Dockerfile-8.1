@@ -1,0 +1,36 @@
+FROM ghcr.io/deck-app/apache:v8.1
+LABEL maintainer Naba Das <hello@get-deck.com>
+
+# Persistent runtime dependencies
+# Example RUN apk add --no-cache php81-openssl php81-sysvmsg php81-curl
+
+
+COPY httpd.conf /etc/apache2/httpd.conf
+ARG SERVER_ROOT
+
+RUN sed -i "s#{SERVER_ROOT}#$SERVER_ROOT#g" /etc/apache2/httpd.conf
+
+VOLUME [ "/var/www/" ]
+WORKDIR /var/www
+COPY php_ini/php.ini /etc/php81/php.ini
+
+ARG DISPLAY_PHPERROR
+RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
+sed -i "s#{DISPLAY}#On#g" /etc/php81/php.ini \
+;else \
+sed -i "s#{DISPLAY}#Off#g" /etc/php81/php.ini \
+;fi
+
+ARG INSTALL_ADDITIONAL_EXTENSIONS
+RUN if [ -z "$INSTALL_ADDITIONAL_EXTENSIONS" ] ; then \
+echo "No additional PHP extensions added" \
+;else \
+apk add --no-cache ${INSTALL_ADDITIONAL_EXTENSIONS} \
+;fi
+
+#Xdebug enable or disable
+ARG XDEBUG
+RUN if [ ${XDEBUG} = true ]; then \
+apk add php81-pecl-xdebug \
+&& echo "zend_extension=xdebug" >> /etc/php81/php.ini \
+;fi
