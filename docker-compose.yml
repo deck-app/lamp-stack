@@ -6,6 +6,8 @@ services:
       dockerfile: 'Dockerfile-${PHP_VERSION}'
       args:
         - 'SERVER_ROOT=${SERVER_ROOT}'
+        - 'USER_ID=${USER_ID}'
+        - 'GROUP_ID=${GROUP_ID}'
         - 'PHP_VERSION=${PHP_VERSION}'
         - 'DISPLAY_PHPERROR=${DISPLAY_PHPERROR}'
         - 'XDEBUG=${XDEBUG}'
