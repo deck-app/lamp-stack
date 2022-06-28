@@ -22,6 +22,14 @@ jobs:
           DISPLAY_PHPERROR: true
           MARIADB_VERSION: latest
 
+    - name: Build the Docker image with php7.3
+      run: docker-compose build
+      env:
+          PHP_VERSION: "7.3"
+          XDEBUG: true
+          DISPLAY_PHPERROR: true
+          MARIADB_VERSION: latest
+
     - name: Build the Docker image with php7.4
       run: docker-compose build
       env:
