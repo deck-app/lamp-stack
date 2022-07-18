@@ -31,8 +31,16 @@ apk add --no-cache ${INSTALL_ADDITIONAL_EXTENSIONS} \
 ## Linux permission issue
 ARG USER_ID
 ARG GROUP_ID
-RUN apk --no-cache add shadow
+RUN apk --no-cache add shadow sudo
 RUN usermod -u ${USER_ID} apache && groupmod -g ${GROUP_ID} apache
+
+COPY login.sh /root/.bashrc
+RUN echo "#!/bin/sh \
+         source ~/.profile \
+         source ~/.bashrc" >> /root/.bash_profile
+
+# sudo command without password
+RUN echo "apache ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 #Xdebug enable or disable
 ARG XDEBUG
