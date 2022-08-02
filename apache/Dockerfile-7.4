@@ -34,9 +34,6 @@ ARG GROUP_ID
 RUN apk --no-cache add shadow sudo
 RUN usermod -u ${USER_ID} apache && groupmod -g ${GROUP_ID} apache
 
-COPY login.sh /etc/profile.d/login.sh
-RUN chmod +x /etc/profile.d/login.sh
-
 # sudo command without password
 RUN echo "apache ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
@@ -46,3 +43,14 @@ RUN if [ ${XDEBUG} = true ]; then \
 apk add php7-pecl-xdebug \
 && echo "zend_extension=xdebug" >> /etc/php7/php.ini \
 ;fi
+
+## apache2 permission issue
+RUN touch /env
+RUN chown -R apache:apache /env
+RUN chown -R apache:apache /usr/sbin/httpd
+RUN chown -R apache:apache /etc/service/apache
+RUN chown -R apache:apache /sbin/
+RUN chown -R apache:apache /etc/service/
+RUN chown -R apache:apache /var/run/apache2
+RUN chown -R apache:apache /var/log/apache2
+USER apache

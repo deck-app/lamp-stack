@@ -31,11 +31,6 @@ ARG GROUP_ID
 RUN apk --no-cache add shadow sudo
 RUN usermod -u ${USER_ID} apache && groupmod -g ${GROUP_ID} apache
 
-COPY login.sh /root/.bashrc
-RUN echo "#!/bin/sh \
-         source ~/.profile \
-         source ~/.bashrc" >> /root/.bash_profile
-
 # sudo command without password
 RUN echo "apache ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
@@ -47,3 +42,13 @@ apk update && apk add --no-cache php5-xdebug \
 ;fi
 
 WORKDIR /var/www
+
+## apache2 permission issue
+RUN chown -R apache:apache /run/apache2
+RUN chown -R apache:apache /usr/sbin/httpd
+RUN chown -R apache:apache /etc/apache2
+RUN chown -R apache:apache /usr/lib/apache2
+RUN chown -R apache:apache /etc/init.d/
+RUN chown -R apache:apache /usr/sbin/apachectl
+RUN chown -R apache:apache /var/log/apache2
+USER apache
