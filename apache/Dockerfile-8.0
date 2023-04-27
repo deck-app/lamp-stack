@@ -10,22 +10,17 @@ ARG SERVER_ROOT
 
 RUN sed -i "s#{SERVER_ROOT}#$SERVER_ROOT#g" /etc/apache2/httpd.conf
 
+ENV PHP_VERSION=8
+ADD package.sh /package.sh
 VOLUME [ "/var/www/" ]
 WORKDIR /var/www
-COPY php_ini/php.ini /etc/php8/php.ini
+COPY php_ini/php.ini /etc/php${PHP_VERSION}/php.ini
 
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
-sed -i "s#{DISPLAY}#On#g" /etc/php8/php.ini \
+sed -i "s#{DISPLAY}#On#g" /etc/php${PHP_VERSION}/php.ini \
 ;else \
-sed -i "s#{DISPLAY}#Off#g" /etc/php8/php.ini \
-;fi
-
-ARG INSTALL_ADDITIONAL_EXTENSIONS
-RUN if [ -z "$INSTALL_ADDITIONAL_EXTENSIONS" ] ; then \
-echo "No additional PHP extensions added" \
-;else \
-apk add --no-cache ${INSTALL_ADDITIONAL_EXTENSIONS} \
+sed -i "s#{DISPLAY}#Off#g" /etc/php${PHP_VERSION}/php.ini \
 ;fi
 
 ## Linux permission issue
@@ -40,8 +35,8 @@ RUN echo "apache ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 #Xdebug enable or disable
 ARG XDEBUG
 RUN if [ ${XDEBUG} = true ]; then \
-apk add php8-pecl-xdebug \
-&& echo "zend_extension=xdebug" >> /etc/php8/php.ini \
+apk add php${PHP_VERSION}-pecl-xdebug \
+&& echo "zend_extension=xdebug" >> /etc/php${PHP_VERSION}/php.ini \
 ;fi
 
 ## apache2 permission issue
@@ -53,4 +48,11 @@ RUN chown -R apache:apache /sbin/
 RUN chown -R apache:apache /etc/service/
 RUN chown -R apache:apache /var/run/apache2
 RUN chown -R apache:apache /var/log/apache2
+ARG INSTALL_ADDITIONAL_EXTENSIONS
+ENV INSTALL_ADDITIONAL_EXTENSIONS=$INSTALL_ADDITIONAL_EXTENSIONS
+RUN if [ -z "$INSTALL_ADDITIONAL_EXTENSIONS" ] ; then \
+echo "No additional PHP extensions added" \
+;else \
+bash /package.sh \
+;fi
 USER apache

@@ -2,13 +2,14 @@ FROM ghcr.io/deck-app/apache:v5.6
 LABEL maintainer Naba Das <hello@get-deck.com>
 
 #add to extension (i.e. php5-fpm)
-
-COPY php_ini/php.ini /etc/php5/php.ini
+ENV PHP_VERSION=5
+ADD package.sh /package.sh
+COPY php_ini/php.ini /etc/php${PHP_VERSION}/php.ini
 ARG DISPLAY_PHPERROR
 RUN if [ ${DISPLAY_PHPERROR} = true ]; then \
-sed -i "s#{DISPLAY}#On#g" /etc/php5/php.ini \
+sed -i "s#{DISPLAY}#On#g" /etc/php${PHP_VERSION}/php.ini \
 ;else \
-sed -i "s#{DISPLAY}#Off#g" /etc/php5/php.ini \
+sed -i "s#{DISPLAY}#Off#g" /etc/php${PHP_VERSION}/php.ini \
 ;fi
 
 RUN rm -Rf /var/www/*
@@ -17,13 +18,6 @@ RUN rm -Rf /var/www/*
 COPY httpd.conf /etc/apache2/httpd.conf
 ARG SERVER_ROOT
 RUN sed -i "s#{SERVER_ROOT}#${SERVER_ROOT}#g" /etc/apache2/httpd.conf
-
-ARG INSTALL_ADDITIONAL_EXTENSIONS
-RUN if [ -z "$INSTALL_ADDITIONAL_EXTENSIONS" ] ; then \
-echo "No additional PHP extensions added" \
-;else \
-apk add --no-cache ${INSTALL_ADDITIONAL_EXTENSIONS} \
-;fi
 
 ## Linux permission issue
 ARG USER_ID
@@ -37,8 +31,8 @@ RUN echo "apache ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 #Xdebug enable or disable
 ARG XDEBUG
 RUN if [ ${XDEBUG} = true ]; then \
-apk update && apk add --no-cache php5-xdebug \
-&& echo "zend_extension=/usr/lib/php5/modules/xdebug.so" >> /etc/php5/php.ini \
+apk update && apk add --no-cache php${PHP_VERSION}-xdebug \
+&& echo "zend_extension=/usr/lib/php${PHP_VERSION}/modules/xdebug.so" >> /etc/php${PHP_VERSION}/php.ini \
 ;fi
 
 WORKDIR /var/www
@@ -51,4 +45,11 @@ RUN chown -R apache:apache /usr/lib/apache2
 RUN chown -R apache:apache /etc/init.d/
 RUN chown -R apache:apache /usr/sbin/apachectl
 RUN chown -R apache:apache /var/log/apache2
+ARG INSTALL_ADDITIONAL_EXTENSIONS
+ENV INSTALL_ADDITIONAL_EXTENSIONS=$INSTALL_ADDITIONAL_EXTENSIONS
+RUN if [ -z "$INSTALL_ADDITIONAL_EXTENSIONS" ] ; then \
+echo "No additional PHP extensions added" \
+;else \
+bash /package.sh \
+;fi
 USER apache
