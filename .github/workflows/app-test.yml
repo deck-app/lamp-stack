@@ -89,12 +89,12 @@ jobs:
         SLACK_MESSAGE: 'Post Content :rocket:'
         SLACK_TITLE: Post Title
         SLACK_USERNAME: rtCamp
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        # SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       # with: 
       #   status: ${{ job.status }}
       #   fields: repo,message,commit,author,action,eventName,ref,workflow
       #   channel: '#github_action_status'
-      # if: always()
+      if: always()
   # Apache-PHP82-Mariadb-ARM64:
   #   runs-on: self-hosted
   #   steps:
