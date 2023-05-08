@@ -81,19 +81,18 @@ jobs:
         echo "y" | docker image prune -a
         echo "y" | docker volume prune
     - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_CHANNEL: github_action_status
-        SLACK_COLOR: ${{ job.status }}
-        SLACK_ICON: https://github.com/rtCamp.png?size=48
-        SLACK_MESSAGE: 'Post Content :rocket:'
-        SLACK_TITLE: Post Title
-        SLACK_USERNAME: rtCamp
-        # SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      # with: 
-      #   status: ${{ job.status }}
-      #   fields: repo,message,commit,author,action,eventName,ref,workflow
-      #   channel: '#github_action_status'
+      uses: 8398a7/action-slack@v3
+      with: 
+        status: custom
+        fields: workflow,job,commit,repo,ref,author,took
+        channel: '#github_action_status'
+        custom_payload: |
+        {
+          attachments: [{
+          color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+          text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`,
+          }]
+        } 
       if: always()
   # Apache-PHP82-Mariadb-ARM64:
   #   runs-on: self-hosted
