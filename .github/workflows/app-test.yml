@@ -28,10 +28,10 @@ jobs:
         fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         message: Waiting for Adminer Build and Testing...
       if: always()
-    - name: Build the Docker image Apache php ${{ matrix.os }}
+    - name: Build the Docker image Apache php ${{ matrix.php }}
       run: docker-compose -f "docker-compose.yml" up -d --build
       env:
-          PHP_VERSION: "${{ matrix.os }}"
+          PHP_VERSION: "${{ matrix.php }}"
           XDEBUG: true
           DISPLAY_PHPERROR: true
           SERVER_ROOT:  /var/www/
