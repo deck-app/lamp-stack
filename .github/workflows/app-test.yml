@@ -85,14 +85,14 @@ jobs:
       with: 
         status: custom
         fields: workflow,job,commit,repo,ref,author,took
-        channel: '#github_action_status'
         custom_payload: |
-        {
-          attachments: [{
-          color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
-          text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`,
-          }]
-        } 
+          {
+            attachments: [{
+            color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+            text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`,
+            }]
+          }
+        channel: '#github_action_status'
       if: always()
   # Apache-PHP82-Mariadb-ARM64:
   #   runs-on: self-hosted
