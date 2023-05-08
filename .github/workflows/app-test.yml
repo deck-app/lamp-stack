@@ -9,7 +9,7 @@ on:
     branches: [ master ]
 
 jobs:
-  Apache-PHP${{ matrix.php }}-Mariadb:
+  Apache-PHP-Mariadb:
     strategy:
       matrix:
         os: [ubuntu-latest, self-hosted]
