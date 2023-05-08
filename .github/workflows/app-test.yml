@@ -83,11 +83,35 @@ jobs:
     - name: Slack Notification
       uses: 8398a7/action-slack@v3
       with: 
-        status: ${{ job.status }}
-        text: 'Deployment and test Apache-PHP82-Mariadb successfully rolled out'
-        icon_emoji: ':octocat:'
-        fields: repo,message,commit,author,action,eventName,ref,workflow
-        icon_url: https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_dc7900ca8b7b1ffa938cf62c40bfe2bf/apache-server.png
+        status: custom
+        custom_payload: |
+          {
+            text: "Custom Field Check",
+            attachments: [{
+              "author_name": "8398a7@action-slack", // json
+              fallback: 'fallback',
+              color: 'good',
+              title: 'CI Result',
+              text: 'Succeeded',
+              fields: [{
+                title: 'lower case',
+                value: 'LOWER CASE CHECK'.toLowerCase(),
+                short: true
+              },
+              {
+                title: 'reverse',
+                value: 'gnirts esrever'.split('').reverse().join(''),
+                short: true
+              },
+              {
+                title: 'long title1',
+                value: 'long value1',
+                short: false
+              }],
+              actions: [{
+              }]
+            }]
+          }    
         channel: '#github_action_status'
       if: always()
   # # Apache-PHP82-Mariadb-ARM64:
