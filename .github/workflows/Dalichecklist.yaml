@@ -73,7 +73,7 @@ jobs:
           SLACK_CHANNEL: github_action_status
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
           SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Post Content NodeJS ${{ matrix.nv }} AMD64 :rocket:'
+          SLACK_MESSAGE: 'Post Content LAMP ${{ matrix.pv }} AMD64 :rocket:'
           SLACK_TITLE: Post Title
           SLACK_USERNAME: rtCamp
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -155,7 +155,7 @@ jobs:
           SLACK_CHANNEL: github_action_status
           SLACK_COLOR: ${{ job.status }}
           SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Post Content NodeJS ${{ matrix.nv }} ARM64 :rocket:'
+          SLACK_MESSAGE: 'Post Content LAMP ${{ matrix.pv }} ARM64 :rocket:'
           SLACK_TITLE: Post Title
           SLACK_USERNAME: rtCamp
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -223,7 +223,7 @@ jobs:
           SLACK_CHANNEL: github_action_status
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
           SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Post Content NodeJS ${{ matrix.nv }} AMD64 :rocket:'
+          SLACK_MESSAGE: 'Post Content LAMP ${{ matrix.pv }} AMD64 :rocket:'
           SLACK_TITLE: Post Title
           SLACK_USERNAME: rtCamp
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -303,7 +303,7 @@ jobs:
           SLACK_CHANNEL: github_action_status
           SLACK_COLOR: ${{ job.status }}
           SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Post Content NodeJS ${{ matrix.nv }} ARM64 :rocket:'
+          SLACK_MESSAGE: 'Post Content LAMP ${{ matrix.pv }} ARM64 :rocket:'
           SLACK_TITLE: Post Title
           SLACK_USERNAME: rtCamp
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
