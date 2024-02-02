@@ -67,17 +67,40 @@ jobs:
           sudo rm -rf /tmp/lamp
           echo "y" | docker image prune -a
           echo "y" | docker volume prune
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
+      - name: Create ENV
         env:
-          SLACK_CHANNEL: github_action_status
-          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-          SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Post Content LAMP ${{ matrix.pv }} AMD64 :rocket:'
-          SLACK_TITLE: Post Title
-          SLACK_USERNAME: rtCamp
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          ENV_TEST: ${{ secrets.ENV_TEST }}
+        run: |
+          echo "$ENV_TEST" > .env.test
+        shell: bash
+      - name: Notify on SUCCESS
+        if: ${{ SUCCESS() }}
+        uses: ravsamhq/notify-slack-action@v2
+        with:
+          status: ${{ job.status }}
+          notification_title: "{emoji} *{job}* has {status_message}"
+          message_format: "*{workflow}* {status_message} in <{branch_url}|{branch}> Architecture <{run_url}|{job}> Approved by ${{ github.event.head_commit.author.name }}"
+          footer: "Linked Repo <{repo_url}|{repo}>" 
+          mention_users: "D056LFW47NF,"
+          mention_users_when: "SUCCESS"
+          mention_groups: "C06H0SB11JL"
+          mention_groups_when: "SUCCESS"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_SUCCESS }}
+      - name: Notify on FAIL
+        if: ${{ failure() }}
+        uses: ravsamhq/notify-slack-action@v2
+        with:
+          status: ${{ job.status }}
+          notification_title: "{emoji} *{job}* has {status_message}"
+          message_format: "*{workflow}* {status_message} in <{branch_url}|{branch}> Architecture <{run_url}|{job}> Approved by ${{ github.event.head_commit.author.name }}"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          mention_users: "D056LFW47NF"
+          mention_users_when: "failure,warnings"
+          mention_groups: "C06G95T1YH3"
+          mention_groups_when: "failure,warnings"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_FAIL }}
   LAMP-ARM64:
     strategy:
       matrix:
@@ -149,17 +172,40 @@ jobs:
           sudo rm -rf /tmp/lamp
           echo "y" | docker image prune -a
           echo "y" | docker volume prune
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
+      - name: Create ENV
         env:
-          SLACK_CHANNEL: github_action_status
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Post Content LAMP ${{ matrix.pv }} ARM64 :rocket:'
-          SLACK_TITLE: Post Title
-          SLACK_USERNAME: rtCamp
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          ENV_TEST: ${{ secrets.ENV_TEST }}
+        run: |
+          echo "$ENV_TEST" > .env.test
+        shell: bash
+      - name: Notify on SUCCESS
+        if: ${{ SUCCESS() }}
+        uses: ravsamhq/notify-slack-action@v2
+        with:
+          status: ${{ job.status }}
+          notification_title: "{emoji} *{job}* has {status_message}"
+          message_format: "*{workflow}* {status_message} in <{branch_url}|{branch}> Architecture <{run_url}|{job}> Approved by ${{ github.event.head_commit.author.name }}"
+          footer: "Linked Repo <{repo_url}|{repo}>" 
+          mention_users: "D056LFW47NF,"
+          mention_users_when: "SUCCESS"
+          mention_groups: "C06H0SB11JL"
+          mention_groups_when: "SUCCESS"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_SUCCESS }}
+      - name: Notify on FAIL
+        if: ${{ failure() }}
+        uses: ravsamhq/notify-slack-action@v2
+        with:
+          status: ${{ job.status }}
+          notification_title: "{emoji} *{job}* has {status_message}"
+          message_format: "*{workflow}* {status_message} in <{branch_url}|{branch}> Architecture <{run_url}|{job}> Approved by ${{ github.event.head_commit.author.name }}"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          mention_users: "D056LFW47NF"
+          mention_users_when: "failure,warnings"
+          mention_groups: "C06G95T1YH3"
+          mention_groups_when: "failure,warnings"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_FAIL }}
   
   LAMP75-AMD64:
     strategy:
@@ -217,17 +263,40 @@ jobs:
           sudo rm -rf /tmp/lamp
           echo "y" | docker image prune -a
           echo "y" | docker volume prune
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
+      - name: Create ENV
         env:
-          SLACK_CHANNEL: github_action_status
-          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-          SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Post Content LAMP ${{ matrix.pv }} AMD64 :rocket:'
-          SLACK_TITLE: Post Title
-          SLACK_USERNAME: rtCamp
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          ENV_TEST: ${{ secrets.ENV_TEST }}
+        run: |
+          echo "$ENV_TEST" > .env.test
+        shell: bash
+      - name: Notify on SUCCESS
+        if: ${{ SUCCESS() }}
+        uses: ravsamhq/notify-slack-action@v2
+        with:
+          status: ${{ job.status }}
+          notification_title: "{emoji} *{job}* has {status_message}"
+          message_format: "*{workflow}* {status_message} in <{branch_url}|{branch}> Architecture <{run_url}|{job}> Approved by ${{ github.event.head_commit.author.name }}"
+          footer: "Linked Repo <{repo_url}|{repo}>" 
+          mention_users: "D056LFW47NF,"
+          mention_users_when: "SUCCESS"
+          mention_groups: "C06H0SB11JL"
+          mention_groups_when: "SUCCESS"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_SUCCESS }}
+      - name: Notify on FAIL
+        if: ${{ failure() }}
+        uses: ravsamhq/notify-slack-action@v2
+        with:
+          status: ${{ job.status }}
+          notification_title: "{emoji} *{job}* has {status_message}"
+          message_format: "*{workflow}* {status_message} in <{branch_url}|{branch}> Architecture <{run_url}|{job}> Approved by ${{ github.event.head_commit.author.name }}"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          mention_users: "D056LFW47NF"
+          mention_users_when: "failure,warnings"
+          mention_groups: "C06G95T1YH3"
+          mention_groups_when: "failure,warnings"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_FAIL }}
   LAMP75-ARM64:
     strategy:
       matrix:
@@ -297,14 +366,37 @@ jobs:
           sudo rm -rf /tmp/lamp
           echo "y" | docker image prune -a
           echo "y" | docker volume prune
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
+      - name: Create ENV
         env:
-          SLACK_CHANNEL: github_action_status
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Post Content LAMP ${{ matrix.pv }} ARM64 :rocket:'
-          SLACK_TITLE: Post Title
-          SLACK_USERNAME: rtCamp
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          ENV_TEST: ${{ secrets.ENV_TEST }}
+        run: |
+          echo "$ENV_TEST" > .env.test
+        shell: bash
+      - name: Notify on SUCCESS
+        if: ${{ SUCCESS() }}
+        uses: ravsamhq/notify-slack-action@v2
+        with:
+          status: ${{ job.status }}
+          notification_title: "{emoji} *{job}* has {status_message}"
+          message_format: "*{workflow}* {status_message} in <{branch_url}|{branch}> Architecture <{run_url}|{job}> Approved by ${{ github.event.head_commit.author.name }}"
+          footer: "Linked Repo <{repo_url}|{repo}>" 
+          mention_users: "D056LFW47NF,"
+          mention_users_when: "SUCCESS"
+          mention_groups: "C06H0SB11JL"
+          mention_groups_when: "SUCCESS"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_SUCCESS }}
+      - name: Notify on FAIL
+        if: ${{ failure() }}
+        uses: ravsamhq/notify-slack-action@v2
+        with:
+          status: ${{ job.status }}
+          notification_title: "{emoji} *{job}* has {status_message}"
+          message_format: "*{workflow}* {status_message} in <{branch_url}|{branch}> Architecture <{run_url}|{job}> Approved by ${{ github.event.head_commit.author.name }}"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          mention_users: "D056LFW47NF"
+          mention_users_when: "failure,warnings"
+          mention_groups: "C06G95T1YH3"
+          mention_groups_when: "failure,warnings"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_FAIL }}
